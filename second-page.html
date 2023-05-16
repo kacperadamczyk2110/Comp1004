@@ -94,6 +94,45 @@
       <button type="button" id="sendButton">Send</button>
     </div>
   </div>
+  <body>
+    <script>
+      // Function to display a new message
+      function displayMessage(sender, content, timestamp) {
+        var messageContainer = document.getElementById("messageContainer");
+        var messageElement = document.createElement("div");
+        messageElement.className = "message";
+        messageElement.innerHTML = "<span>" + sender + " - " + timestamp + "</span><div class='content'>" + content + "</div>";
+        messageContainer.appendChild(messageElement);
+        messageContainer.scrollTop = messageContainer.scrollHeight; // Scroll to bottom
+      }
+  
+      // Example: Displaying some messages
+      displayMessage("John", "Hello there!", "12:30 PM");
+      displayMessage("Jane", "Hi John!", "12:35 PM");
+      displayMessage("John", "How are you?", "12:40 PM");
+    
+        // Function to display a new message
+        function displayMessage(sender, content, timestamp) {
+        var messageContainer = document.getElementById("messageContainer");
+        var messageElement = document.createElement("div");
+        messageElement.className = "message";
+        messageElement.innerHTML = "<span>" + sender + " - " + timestamp + "</span><div class='content'>" + content + "</div>";
+        messageContainer.appendChild(messageElement);
+        messageContainer.scrollTop = messageContainer.scrollHeight; // Scroll to bottom
+        }
+
+        // Function to handle send button click
+        document.getElementById("sendButton").addEventListener("click", function() {
+        var messageInput = document.getElementById("messageInput");
+        var message = messageInput.value.trim();
+        if (message !== "") {
+            var timestamp = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+            displayMessage("You", message, timestamp);
+            messageInput.value = "";
+        }
+        });
+    </script>
+  </body>
   
   <script>
     // Function to display a new message
