@@ -96,61 +96,44 @@
   </div>
   <body>
     <script>
-      // Function to display a new message
-      function displayMessage(sender, content, timestamp) {
-        var messageContainer = document.getElementById("messageContainer");
-        var messageElement = document.createElement("div");
-        messageElement.className = "message";
-        messageElement.innerHTML = "<span>" + sender + " - " + timestamp + "</span><div class='content'>" + content + "</div>";
-        messageContainer.appendChild(messageElement);
-        messageContainer.scrollTop = messageContainer.scrollHeight; // Scroll to bottom
-      }
-  
-      // Example: Displaying some messages
-      displayMessage("John", "Hello there!", "12:30 PM");
-      displayMessage("Jane", "Hi John!", "12:35 PM");
-      displayMessage("John", "How are you?", "12:40 PM");
-    
         // Function to display a new message
         function displayMessage(sender, content, timestamp) {
-        var messageContainer = document.getElementById("messageContainer");
-        var messageElement = document.createElement("div");
-        messageElement.className = "message";
-        messageElement.innerHTML = "<span>" + sender + " - " + timestamp + "</span><div class='content'>" + content + "</div>";
-        messageContainer.appendChild(messageElement);
-        messageContainer.scrollTop = messageContainer.scrollHeight; // Scroll to bottom
+          var messageContainer = document.getElementById("messageContainer");
+          var messageElement = document.createElement("div");
+          messageElement.className = "message";
+          messageElement.innerHTML = "<span>" + sender + " - " + timestamp + "</span><div class='content'>" + censorMessage(content) + "</div>";
+          messageContainer.appendChild(messageElement);
+          messageContainer.scrollTop = messageContainer.scrollHeight; // Scroll to bottom
         }
-
+    
+        // Function to censor inappropriate words in a message
+        function censorMessage(message) {
+          var inappropriateWords = ["fuck", "bitch", "shit", "cunt"];
+          for (var i = 0; i < inappropriateWords.length; i++) {
+            var regex = new RegExp("\\b" + inappropriateWords[i] + "\\b", "gi");
+            message = message.replace(regex, "****");
+          }
+          return message;
+        }
+    
         // Function to handle send button click
         document.getElementById("sendButton").addEventListener("click", function() {
-        var messageInput = document.getElementById("messageInput");
-        var message = messageInput.value.trim();
-        if (message !== "") {
+          var messageInput = document.getElementById("messageInput");
+          var message = messageInput.value.trim();
+          if (message !== "") {
             var timestamp = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
             displayMessage("You", message, timestamp);
             messageInput.value = "";
-        }
+          }
         });
-    </script>
+    
+        // Function to handle Enter key press
+        document.getElementById("messageInput").addEventListener("keypress", function(event) {
+          if (event.keyCode === 13) { // Enter key
+            event.preventDefault(); // Prevent line break
+            document.getElementById("sendButton").click(); // Simulate click on the send button
+          }
+        });
+      </script>
   </body>
   
-  <script>
-    // Function to display a new message
-    function displayMessage(sender, content) {
-      var messageContainer = document.getElementById("messageContainer");
-      var messageElement = document.createElement("div");
-      messageElement.className = "message";
-      messageElement.innerHTML = "<span>" + sender + ":</span><div class='content'>" + content + "</div>";
-      messageContainer.appendChild(messageElement);
-      messageContainer.scrollTop = messageContainer.scrollHeight; // Scroll to bottom
-    }
-  
-    // Function to handle send button click
-    document.getElementById("sendButton").addEventListener("click", function() {
-      var messageInput = document.getElementById("messageInput");
-      var message = messageInput.value.trim();
-      if (message !== "") {
-        displayMessage("You", message);
-        messageInput.value = "";
-      }
-    });
